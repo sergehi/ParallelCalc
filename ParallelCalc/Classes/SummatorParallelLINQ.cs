@@ -14,12 +14,12 @@ namespace ParallelCalc.Classes
             _name = "Параллельно (LINQ)";
         }
 
-        public override long DoSumm(int[]? array, int degreeOfParallelism)
+        public override long DoSumm(long[]? array, int degreeOfParallelism)
         {
             if (array is null)
                 return 0;
 
-            return array.AsParallel().WithDegreeOfParallelism(degreeOfParallelism).Sum(x => (long)x);
+            return array.AsParallel().WithDegreeOfParallelism(degreeOfParallelism).Sum();
         }
 
     }

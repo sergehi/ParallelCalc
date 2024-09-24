@@ -13,13 +13,13 @@ namespace ParallelCalc.Classes
         {
             _name = "Параллельно (Task)";
         }
-        public override long DoSumm(int[]? array, int threadsNumber)
+        public override long DoSumm(long[]? array, int threadsNumber)
         { 
             return DoSummAsync(array, threadsNumber).GetAwaiter().GetResult();
         }
 
 
-        async Task<long> DoSummAsync(int[]? array, int threadsNumber)
+        async Task<long> DoSummAsync(long[]? array, int threadsNumber)
         {
             if (array is null)
                 return 0;

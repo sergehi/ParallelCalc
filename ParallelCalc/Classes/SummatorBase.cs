@@ -17,7 +17,7 @@ namespace ParallelCalc.Classes
 
         public string IntroduceYourself() => $"Выбранный метод расчета: {_name}";
 
-        virtual public long DoSumm(int[]? array, int threadsNumber)
+        virtual public long DoSumm(long[]? array, int threadsNumber)
         {
             var sum = 0L;
             if (array is null)
@@ -29,7 +29,7 @@ namespace ParallelCalc.Classes
         }
 
 
-        protected static void summarise(int[] valuesArray, int start, int end, int threadIndex, long[] threadSums)
+        protected static void summarise(long[] valuesArray, int start, int end, int threadIndex, long[] threadSums)
         {
             var localSum = 0L;
             for (var j = start; j < end; j++)

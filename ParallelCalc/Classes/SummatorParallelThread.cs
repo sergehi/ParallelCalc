@@ -16,7 +16,7 @@ namespace ParallelCalc.Classes
 
         // Массив делится на диапазоны(chunks) и, затем, чанки вычисляются параллельно - для каждого создается Thread
         // Количество диапазонов получаем из числа логических процессоров, доступных для использования средой CLR (Environment.ProcessorCount)
-        override public long DoSumm(int[]? array, int threadsNumber)
+        override public long DoSumm(long[]? array, int threadsNumber)
         {
             if (array is null)
                 return 0;

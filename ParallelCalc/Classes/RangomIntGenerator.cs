@@ -7,18 +7,18 @@ using ParallelCalc.Interfaces;
 
 namespace ParallelCalc.Classes
 {
-    internal class RangomIntGenerator : IRandomGenerator<int>
+    internal class RangomIntGenerator : IRandomGenerator<long>
     {
         private Random _random = new Random();
-        public int Next(int minVal, int maxVal)
+        public long Next(long minVal, long maxVal)
         {
-            return _random.Next(minVal, maxVal + 1);
+            return _random.Next((int)minVal, (int)maxVal + 1);
         }
-        public int[]? GenerateArray(int Count, int minVal, int maxVal)
+        public long[]? GenerateArray(int Count, long minVal, long maxVal)
         {
             try
             {
-                int[] array = new int[Count];
+                long[] array = new long[Count];
                 for (int i = 0; i < Count; i++)
                     array[i] = Next(minVal, maxVal);
                 return array;

@@ -35,7 +35,7 @@ namespace ParallelCalc.Classes
                 // Первый индекс чанка
                 var start = i * chunkSize;
                 // Последний индекс чанка. Финт ушами: для посделнего чанка end - это последний элемент в массиве
-                var end = i == threadsNumber - 1 ? array.Length : start + chunkSize;
+                var end = (i == threadsNumber - 1) ? array.Length : start + chunkSize;
 
                 tasks[i] = Task.Run(() => summarise(array, start, end, index, partialSums));
             }

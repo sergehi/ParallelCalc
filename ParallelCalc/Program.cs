@@ -41,7 +41,6 @@ internal class Program
             var valuesArray = randomGenerator.GenerateArray(size, 0, 1000);
             foreach (var summator in summators)
             {
-                summator.IntroduceYourself();
                 var stopwatch = Stopwatch.StartNew();
                 var sum = summator.DoSumm(valuesArray, numberOfThreads);
                 stopwatch.Stop();

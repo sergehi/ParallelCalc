@@ -30,11 +30,11 @@ internal class Program
         var numberOfThreads = Environment.ProcessorCount;
         var randomGenerator = new RangomLongGenerator();
         var sizes = new int[]{ 100_000, 1_000_000, 10_000_000 };
+        var summators = new SummatorBase[] { new SummatorBase(), new SummatorParallelThread(), new SummatorParallelTask(), new SummatorParallelLINQ() };
 
         WriteEnvronmentInfo();
         Console.WriteLine();
         Console.WriteLine($"Расчет:");
-        var summators = new SummatorBase[] { new SummatorBase(), new SummatorParallelThread(), new SummatorParallelTask(), new SummatorParallelLINQ() };
         foreach (var size in sizes)
         {
             Console.WriteLine($"Размер массива: {size:N0} элементов");

@@ -30,7 +30,7 @@ internal class Program
         var numberOfThreads = Environment.ProcessorCount;
         var randomGenerator = new RangomLongGenerator();
         var sizes = new int[]{ 100_000, 1_000_000, 10_000_000 };
-        var summators = new SummatorBase[] { new SummatorBase(), new SummatorParallelThread(), new SummatorParallelTask(), new SummatorParallelLINQ() };
+        var summators = new SummatorBase[] { new(), new SummatorParallelThread(), new SummatorParallelTask(), new SummatorParallelLINQ() };
 
         WriteEnvronmentInfo();
         Console.WriteLine();

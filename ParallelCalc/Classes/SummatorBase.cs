@@ -36,7 +36,7 @@ namespace ParallelCalc.Classes
                 localSum += valuesArray[j];
 
             // Можно Interlocked.Add(ref partialSums[threadIndex], localSum);
-            // но в этом нет особой надобности - каждый поток пищет в свой индекс массива.
+            // но в этом нет особой надобности - каждый поток пишет в свой индекс массива.
             //
             threadSums[threadIndex] = localSum;
         }

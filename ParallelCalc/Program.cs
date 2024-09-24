@@ -29,7 +29,7 @@ internal class Program
     {
         int numberOfThreads = Environment.ProcessorCount;
         IRandomGenerator<long> randomGenerator = new RangomLongGenerator();
-        int[] sizes = { 100_000, 1_000_000, 10_000_000 };
+        var sizes = new int[]{ 100_000, 1_000_000, 10_000_000 };
 
         WriteEnvronmentInfo();
         Console.WriteLine();

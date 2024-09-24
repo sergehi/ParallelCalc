@@ -7,7 +7,7 @@ using ParallelCalc.Interfaces;
 
 namespace ParallelCalc.Classes
 {
-    internal class RangomIntGenerator : IRandomGenerator<long>
+    internal class RangomLongGenerator : IRandomGenerator<long>
     {
         private Random _random = new Random();
         public long Next(long minVal, long maxVal)

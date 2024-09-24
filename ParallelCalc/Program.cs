@@ -16,110 +16,46 @@
 
 //Пришлите в чат с преподавателем помимо ссылки на репозиторий номера своих строк в таблице.
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using ParallelCalc.Implementations;
+using System.Drawing;
+using ParallelCalc.Classes;
 using ParallelCalc.Interfaces;
 
 internal class Program
 {
-
-
-    private static void Main(string[] args)
+    static void Main(string[] args)
     {
+        int numberOfThreads = Environment.ProcessorCount;
         IRandomGenerator<int> randomGenerator = new RangomIntGenerator();
-
         int[] sizes = { 100_000, 1_000_000, 10_000_000 };
-        Console.WriteLine("Размер массива\t|\tПоследовательное\t|\tПараллельное (Thread)\t|\tПараллельное (LINQ)");
-        Console.WriteLine("");
+
+        WriteEnvronmentInfo();
+        Console.WriteLine();
+        Console.WriteLine($"Расчет:");
+        var summators = new SummatorBase[] { new SummatorBase(), new SummatorParallelThread(), new SummatorParallelTask(), new SummatorParallelLINQ() };
         foreach (var size in sizes)
         {
+            Console.WriteLine($"Размер массива: {size:N0} элементов");
             var valuesArray = randomGenerator.GenerateArray(size, 0, 1000);
-            // Последовательное вычисление
-            var stopwatch = Stopwatch.StartNew();
-            long sumSequential = SumSequential(valuesArray);
-            stopwatch.Stop();
-            long timeSequential = stopwatch.ElapsedMilliseconds;
-
-            // Параллельное вычисление с использованием Thread
-            stopwatch.Restart();
-            long sumParallelThread = SumParallelThread(valuesArray);
-            stopwatch.Stop();
-            long timeParallelThread = stopwatch.ElapsedMilliseconds;
-
-            // Параллельное вычисление с использованием LINQ
-            stopwatch.Restart();
-            //long sumParallelLINQ = SumParallelLINQ(valuesArray, Environment.ProcessorCount);
-            long sumParallelLINQ = SumParallelLINQ(valuesArray, 1);
-            stopwatch.Stop();
-            long timeParallelLINQ = stopwatch.ElapsedMilliseconds;
-
-            Console.WriteLine($"{size,-15}\t|\t{sumSequential,-16}\t|\t{sumParallelThread,-20}\t|\t{sumParallelLINQ}");
-            Console.WriteLine($"{"",-15}\t|\t{timeSequential,-16}мс\t|\t{timeParallelThread,-20} мс\t|\t{timeParallelLINQ} мс");
+            foreach (var summator in summators)
+            {
+                summator.IntroduceYourself();
+                var stopwatch = Stopwatch.StartNew();
+                var sum = summator.DoSumm(valuesArray, numberOfThreads);
+                stopwatch.Stop();
+                Console.WriteLine($"{summator.IntroduceYourself()}:\tСумма: {sum}\tВремя:{stopwatch.ElapsedMilliseconds} мс.");
+            }
         }
         Console.ReadKey();
-
     }
-    static long SumSequential(int[]? array)
+
+
+    static void WriteEnvronmentInfo()
     {
-        long sum = 0;
-
-        if (array is null)
-            return sum;
-
-        foreach (var item in array)
-        {
-            sum += item;
-        }
-        return sum;
+        Console.WriteLine("Окружение:");
+        Console.WriteLine($"Операционная система: {Environment.OSVersion}");
+        Console.WriteLine($"Процессор: {Environment.ProcessorCount} логических процессоров");
     }
-
-    static long SumParallelThread(int[]? array)
-    {
-        if (array is null)
-            return 0;
-
-        int numberOfThreads = Environment.ProcessorCount;
-        int chunkSize = array.Length / numberOfThreads;
-        long[] partialSums = new long[numberOfThreads];
-        Thread[] threads = new Thread[numberOfThreads];
-
-        
-        for (int i = 0; i < numberOfThreads; i++)
-        { 
-            int index = i;
-            int start = i * chunkSize;
-            int end = (i == numberOfThreads - 1) ? array.Length : start + chunkSize;
-
-            Action<int> summator = (x) =>
-            {
-                long localSum = 0;
-                for (int j = start; j < end; j++)
-                {
-                    localSum += array[j];
-                }
-                partialSums[x] = localSum;
-            };
-            threads[i] = new Thread(() => summator(index));
-            threads[i].Start();
-        }
-        foreach (var thread in threads)
-        {
-            thread.Join();
-        }
-        return partialSums.Sum();
-    }
-
-    static long SumParallelLINQ(int[]? array, int degreeOfParallelism)
-    {
-        if (array is null)
-            return 0;
-
-        return array.AsParallel().WithDegreeOfParallelism(degreeOfParallelism).Sum(x => (long)x);
-    }
-
-
-
-
-
 }

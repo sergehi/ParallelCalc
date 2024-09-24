@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ParallelCalc.Interfaces;
 
-namespace ParallelCalc.Implementations
+namespace ParallelCalc.Classes
 {
     internal class RangomIntGenerator : IRandomGenerator<int>
     {
